@@ -74,6 +74,36 @@ macro_rules! veccat {
 }
 
 /// Hash a username and password with the given password hasher
+pub fn hash_password_vec_with_capacity<'a, U, P, H>(
+    username: U,
+    password: P,
+    salt: impl Into<Salt<'a>>,
+    params: H::Params,
+    hasher: H,
+    //) -> Result<PasswordHash<'a>>
+) -> ()
+where
+    H: PasswordHasher,
+    U: AsRef<[u8]>,
+    P: AsRef<[u8]>,
+{
+
+    let user = username.as_ref();
+    let pass = password.as_ref();
+
+    let mut v = Vec::with_capacity(user.len() + pass.len() + 1);
+    v.extend_from_slice(user);
+    v.push(b':');
+    v.extend_from_slice(pass);
+
+    
+    ()
+/*    hasher
+        .hash_password_customized(&v, None, None, params, salt)
+        .map_err(Error::PasswordHashing) */
+}
+
+/// Hash a username and password with the given password hasher
 pub fn hash_password_vec<'a, U, P, H>(
     username: U,
     password: P,

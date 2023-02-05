@@ -29,6 +29,10 @@ fn criterion_benchmark(c: &mut Criterion) {
     c.bench_function("hash_pasword_vec", |b| {
         b.iter(|| hash_password_vec(valid_user.as_ref(), valid_password.as_ref(), salt, params, Pbkdf2))
     });
+
+    c.bench_function("hash_pasword_vec_with_capacity", |b| {
+        b.iter(|| hash_password_vec_with_capacity(valid_user.as_ref(), valid_password.as_ref(), salt, params, Pbkdf2))
+    });
     
 }
 
