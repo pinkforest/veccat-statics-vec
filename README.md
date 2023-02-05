@@ -6,12 +6,17 @@ Just how much concat byte slice costs ? and does with_capacity help ?
 
 hash_pasword_veccat     time:   [15.869 ns 15.953 ns 16.091 ns]
 
-hash_pasword_copy       time:   [0.0000 ps 0.0000 ps 0.0000 ps]
+hash_pasword_static     time:   [0.0000 ps 0.0000 ps 0.0000 ps]
 
 hash_pasword_vec        time:   [32.999 ns 33.036 ns 33.071 ns]
 
 hash_pasword_vec_with_capacity
                         time:   [12.779 ns 12.790 ns 12.803 ns]
+
+For three things below happens+ vs static:
+ - veccat: **2x** heap allocations (works best with many elements)
+ - vec: **3x** heap allocations
+ - vec with_capacity: **1x** heap allocation
 
 `veccat!` macro pilfered from: https://crates.io/crates/concat_in_place
 
