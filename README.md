@@ -20,7 +20,7 @@ For three things below happens+ vs static:
  - veccat: **2x** heap allocations (works best with many elements)
  - vec: **3x** heap allocations
  - vec with_capacity: **1x** heap allocation
- - inline just works ?
+ - inline is cheetos
 
 `veccat!` macro pilfered from: https://crates.io/crates/concat_in_place
 
