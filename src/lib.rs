@@ -112,7 +112,7 @@ pub fn hash_password_vec_with_capacity_inline<'a, U, P, H>(
     params: H::Params,
     hasher: H,
     //) -> Result<PasswordHash<'a>>
-) -> ()
+) -> Vec<u8>
 where
     H: PasswordHasher,
     U: AsRef<[u8]>,
@@ -128,7 +128,7 @@ where
     v.extend_from_slice(pass);
 
     
-    ()
+    v
 /*    hasher
         .hash_password_customized(&v, None, None, params, salt)
         .map_err(Error::PasswordHashing) */
