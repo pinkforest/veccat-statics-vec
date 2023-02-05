@@ -13,8 +13,8 @@ hash_pasword_vec        time:   [32.999 ns 33.036 ns 33.071 ns]
 hash_pasword_vec_with_capacity
                         time:   [12.779 ns 12.790 ns 12.803 ns]
 
-ash_pasword_vec_with_capacity_inline
-                        time:   [0.0000 ps 0.0000 ps 0.0000 ps]
+hash_pasword_vec_with_capacity_inline
+                        time:   [8.4060 ns 8.4132 ns 8.4214 ns]
 
 For three things below happens+ vs static:
  - veccat: **2x** heap allocations (works best with many elements)
