@@ -18,20 +18,32 @@ fn criterion_benchmark(c: &mut Criterion) {
 
     let params = Params::default();
 
-    c.bench_function("hash_pasword_veccat", |b| {
-        b.iter(|| hash_password_veccat(valid_user.as_ref(), valid_password.as_ref(), salt, params, Pbkdf2))
+    c.bench_function("hash_pasword_veccat_2x", |b| {
+        b.iter(|| hash_password_veccat_2x(valid_user.as_ref(), valid_password.as_ref(), salt, params, Pbkdf2))
     });
 
-    c.bench_function("hash_pasword_copy", |b| {
-        b.iter(|| hash_password_copy(valid_user.as_ref(), valid_password.as_ref(), salt, params, Pbkdf2))
+    c.bench_function("hash_pasword_veccat_1x", |b| {
+        b.iter(|| hash_password_veccat_1x(valid_user.as_ref(), valid_password.as_ref(), salt, params, Pbkdf2))
+    });
+    
+    c.bench_function("hash_pasword_static", |b| {
+        b.iter(|| hash_password_static(valid_user.as_ref(), valid_password.as_ref(), salt, params, Pbkdf2))
     });
 
     c.bench_function("hash_pasword_vec", |b| {
         b.iter(|| hash_password_vec(valid_user.as_ref(), valid_password.as_ref(), salt, params, Pbkdf2))
     });
 
+    c.bench_function("hash_pasword_vec_inline", |b| {
+        b.iter(|| hash_password_vec_inline(valid_user.as_ref(), valid_password.as_ref(), salt, params, Pbkdf2))
+    });
+    
     c.bench_function("hash_pasword_vec_with_capacity", |b| {
         b.iter(|| hash_password_vec_with_capacity(valid_user.as_ref(), valid_password.as_ref(), salt, params, Pbkdf2))
+    });
+
+    c.bench_function("hash_pasword_vec_with_capacity_inline", |b| {
+        b.iter(|| hash_password_vec_with_capacity_inline(valid_user.as_ref(), valid_password.as_ref(), salt, params, Pbkdf2))
     });
     
 }

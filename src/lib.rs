@@ -104,6 +104,37 @@ where
 }
 
 /// Hash a username and password with the given password hasher
+#[inline]
+pub fn hash_password_vec_with_capacity_inline<'a, U, P, H>(
+    username: U,
+    password: P,
+    salt: impl Into<Salt<'a>>,
+    params: H::Params,
+    hasher: H,
+    //) -> Result<PasswordHash<'a>>
+) -> ()
+where
+    H: PasswordHasher,
+    U: AsRef<[u8]>,
+    P: AsRef<[u8]>,
+{
+
+    let user = username.as_ref();
+    let pass = password.as_ref();
+
+    let mut v = Vec::with_capacity(user.len() + pass.len() + 1);
+    v.extend_from_slice(user);
+    v.push(b':');
+    v.extend_from_slice(pass);
+
+    
+    ()
+/*    hasher
+        .hash_password_customized(&v, None, None, params, salt)
+        .map_err(Error::PasswordHashing) */
+}
+
+/// Hash a username and password with the given password hasher
 pub fn hash_password_vec<'a, U, P, H>(
     username: U,
     password: P,
@@ -129,7 +160,33 @@ where
 }
 
 /// Hash a username and password with the given password hasher
-pub fn hash_password_copy<'a, U, P, H>(
+#[inline]
+pub fn hash_password_vec_inline<'a, U, P, H>(
+    username: U,
+    password: P,
+    salt: impl Into<Salt<'a>>,
+    params: H::Params,
+    hasher: H,
+    //) -> Result<PasswordHash<'a>>
+) -> ()
+where
+    H: PasswordHasher,
+    U: AsRef<[u8]>,
+    P: AsRef<[u8]>,
+{
+
+    let mut v = username.as_ref().to_vec();
+    v.push(b':');
+    v.extend_from_slice(password.as_ref());
+
+    ()
+/*    hasher
+        .hash_password_customized(&v, None, None, params, salt)
+        .map_err(Error::PasswordHashing) */
+}
+
+/// Hash a username and password with the given password hasher
+pub fn hash_password_static<'a, U, P, H>(
     username: U,
     password: P,
     salt: impl Into<Salt<'a>>,
@@ -163,7 +220,7 @@ where
 }
 
 /// Hash a username and password with the given password hasher
-pub fn hash_password_veccat<'a, U, P, H>(
+pub fn hash_password_veccat_2x<'a, U, P, H>(
     username: U,
     password: P,
     salt: impl Into<Salt<'a>>,
@@ -179,7 +236,32 @@ where
     let mut out = Vec::new();
     
     let buf = veccat!(&mut out, username.as_ref() b":" password.as_ref());
+    
+    ()
+/*    hasher
+        .hash_password_customized(&buf, None, None, params, salt)
+        .map_err(Error::PasswordHashing) */
+}
 
+
+/// Hash a username and password with the given password hasher
+pub fn hash_password_veccat_1x<'a, U, P, H>(
+    username: U,
+    password: P,
+    salt: impl Into<Salt<'a>>,
+    params: H::Params,
+    hasher: H,
+//) -> Result<PasswordHash<'a>>
+) -> ()
+where
+    H: PasswordHasher,
+    U: AsRef<[u8]>,
+    P: AsRef<[u8]>,
+{
+    let mut out = Vec::new();
+    
+    let buf = veccat!(&mut out, username.as_ref() b":" password.as_ref());
+    
     ()
 /*    hasher
         .hash_password_customized(&buf, None, None, params, salt)
